@@ -96,17 +96,22 @@ $(function() {
          */
          
 
-        it('There is an entry element in the feed container', function(done){
-            expect($('.entry').length).toBeGreaterThan(0);
-            done();
+        it('There is an entry element in the feed container', function(){
+            expect($('.feed .entry').length).toBeGreaterThan(0);
         });
     });
 
     describe('New Feed Selection', function(){
-        const previousContent = $('.feed').html();
+        let previousContent;
+        let newFeedContent;
         beforeEach(function(done) {
                 loadFeed(0, function(){
-                    done();
+                    previousContent = $('.feed').html();
+                    loadFeed(1, function(){
+                        newFeedContent = $('.feed').html();
+                        done();
+                    });
+
                 });
         });
         
@@ -115,9 +120,8 @@ $(function() {
          * loadFeed() is asynchronous so this test requires
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-         it('The content changed', function(done){
-            expect($('.feed').html()).not.toEqual(previousContent);
-            done();
+         it('The content changed', function(){
+            expect(newFeedContent).not.toEqual(previousContent);
 
          });
 
